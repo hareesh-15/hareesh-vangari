@@ -276,16 +276,20 @@
 .resume-link:hover {
     color: #dd2b1e;
 }
+/* CUSTOM CURSOR */
 .cursor-arrow {
     position: fixed;
+    left: 0;
+    top: 0;
     width: 40px;
     height: 40px;
     border: 1px solid #dd2b1e;
     border-radius: 50%;
     pointer-events: none;
-    z-index: 99999;
+    z-index: 999999;
     transform: translate(-50%, -50%);
     display: none;
+    opacity: 1;
 }
 
 .cursor-arrow::after {
@@ -301,9 +305,17 @@
 }
 
 @media (min-width: 1100px) {
+    html {
+        cursor: none !important;
+    }
+
     body,
     body * {
         cursor: none !important;
+    }
+
+    .cursor-arrow {
+        display: block !important;
     }
 }
   
@@ -312,6 +324,7 @@
 <body>
 
   <div class="cursor-arrow"></div>
+  
 <header>
   <nav class="nav">
     <a href="#home" class="logo">HAREESH<span>.</span>VANGARI</a>
@@ -575,12 +588,13 @@
   function drawGraph(){const pad=32,base=cssH*.72;ctx.save();ctx.beginPath();for(let i=0;i<=60;i++){const x=pad+(cssW-pad*2)*(i/60);const y=base-cssH*.25*(i/60)-Math.sin(i*.42+time*.018)*18-Math.sin(i*.12)*12; if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.strokeStyle='rgba(221,43,30,.68)';ctx.lineWidth=2.2;ctx.stroke();ctx.lineTo(cssW-pad,base);ctx.lineTo(pad,base);ctx.closePath();const grad=ctx.createLinearGradient(0,cssH*.35,0,base);grad.addColorStop(0,'rgba(221,43,30,.16)');grad.addColorStop(1,'rgba(221,43,30,0)');ctx.fillStyle=grad;ctx.fill();const gx=pad+(cssW-pad*2)*.72;const gy=base-cssH*.25*.72-Math.sin(.72*60*.42+time*.018)*18-Math.sin(.72*60*.12)*12;ctx.beginPath();ctx.arc(gx,gy,5+Math.sin(time*.08)*1.5,0,Math.PI*2);ctx.fillStyle='#dd2b1e';ctx.shadowBlur=18;ctx.shadowColor='#dd2b1e';ctx.fill();ctx.restore();}
   function tick(){time++;ctx.clearRect(0,0,cssW,cssH);drawGrid();points.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>cssW)p.vx*=-1;if(p.y<0||p.y>cssH)p.vy*=-1;const dx=mouse.x-p.x,dy=mouse.y-p.y,d=Math.hypot(dx,dy);if(d<140){p.x+=dx*.0015;p.y+=dy*.0015;}});for(let i=0;i<points.length;i++){for(let j=i+1;j<points.length;j++){const a=points[i],b=points[j],d=Math.hypot(a.x-b.x,a.y-b.y),maxD=145;if(d<maxD){ctx.strokeStyle=`rgba(221,43,30,${(1-d/maxD)*.32})`;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}}}points.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(253,253,252,.86)';ctx.fill();});drawGraph();requestAnimationFrame(tick);}
   canvas.addEventListener('mousemove',e=>{const r=canvas.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top});canvas.addEventListener('mouseleave',()=>{mouse.x=-9999;mouse.y=-9999});sizeCanvas();initPoints();tick();window.addEventListener('resize',()=>{sizeCanvas();initPoints();});
-const cursorArrow = document.querySelector('.cursor-arrow');
+/* CUSTOM CURSOR */
+const customCursor = document.querySelector('.cursor-arrow');
 
-if (cursorArrow && window.innerWidth >= 1100) {
+if (customCursor) {
     document.addEventListener('mousemove', function(e) {
-        cursorArrow.style.left = e.clientX + 'px';
-        cursorArrow.style.top = e.clientY + 'px';
+        customCursor.style.left = e.clientX + 'px';
+        customCursor.style.top = e.clientY + 'px';
     });
 }
 </script>
